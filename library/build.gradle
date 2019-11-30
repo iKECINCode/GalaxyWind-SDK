@@ -7,7 +7,7 @@ ext {
     customVersionCode = 1
     customVersionName = '1.0.0'
     customGroupId = 'com.ikecin.sdk'
-    customArtifactId = 'jni' // 必须保证artifactId唯一，AndroidManifest中的package值也要唯一，建议跟artifactID保持一致
+    customArtifactId = 'galaxywind' // 必须保证artifactId唯一，AndroidManifest中的package值也要唯一，建议跟artifactID保持一致
 }
 
 android {
@@ -18,20 +18,6 @@ android {
         versionCode customVersionCode
         versionName customVersionName
         consumerProguardFiles 'consumer-proguard-rules.pro'
-        ndk {
-            moduleName "Demo"
-        }
-        externalNativeBuild {
-            cmake {
-                cppFlags ""
-            }
-        }
-    }
-
-    externalNativeBuild {
-        cmake {
-            path "src/main/cpp/CMakeLists.txt"
-        }
     }
 
     buildTypes {

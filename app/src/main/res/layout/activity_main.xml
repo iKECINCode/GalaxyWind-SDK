@@ -6,9 +6,15 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/ok"
+        android:id="@+id/start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@android:string/ok"/>
+        android:text="开始配网"/>
+
+    <Button
+        android:id="@+id/stop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="停止配网"/>
 
 </LinearLayout>

@@ -3,9 +3,8 @@ package com.ikecin.demo;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.ikecin.sdk.jni.Demo;
-
 import androidx.appcompat.app.AppCompatActivity;
+import io.reactivex.disposables.Disposable;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,9 +14,34 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        findViewById(R.id.ok).setOnClickListener(v -> {
-            Toast.makeText(getApplicationContext(), Demo.text(), Toast.LENGTH_SHORT).show();
+        GWDeviceManager.getInstance().init(this);
+
+        findViewById(R.id.start).setOnClickListener(v -> {
+            GWDeviceManager.getInstance().startSmartConfig("iKECINSmart", "iKECINSmart", Integer.MAX_VALUE);
         });
+
+
+        findViewById(R.id.stop).setOnClickListener(v -> {
+            GWDeviceManager.getInstance().stopSmartConfig();
+        });
+
+        Disposable disposable = GWDeviceManager.getInstance()
+            .observeConfig()
+            .subscribe(s -> {
+                if (s.isEmpty()) {
+                    Toast.makeText(this, "配网失败", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this, s, Toast.LENGTH_LONG).show();
+                }
+            });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        GWDeviceManager.getInstance().stopSmartConfig();
+
+        GWDeviceManager.getInstance().deinit();
+    }
 }
