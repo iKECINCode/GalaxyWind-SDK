@@ -21,7 +21,7 @@ public class GWDeviceManager implements WukitEventHandler {
         private static final GWDeviceManager sInstance = new GWDeviceManager();
     }
 
-    static GWDeviceManager getInstance() {
+    public static GWDeviceManager getInstance() {
         return Holder.sInstance;
     }
 
@@ -36,7 +36,7 @@ public class GWDeviceManager implements WukitEventHandler {
     /**
      * 初始化
      */
-    void init(Context context) {
+    public void init(Context context) {
         mSdk.init(context.getApplicationContext());
         mSdk.registerEvent(BaseEventMapper.SC_BEGIN, BaseEventMapper.SC_END, WukitEventHandler.HANDLE_ALL, this);
         mSdk.setDebugEnable(BuildConfig.DEBUG);
@@ -45,7 +45,7 @@ public class GWDeviceManager implements WukitEventHandler {
     /**
      * 销毁
      */
-    void deinit() {
+    public void deinit() {
         mSdk.unRegisterEvent(this);
         mSdk.release();
     }
@@ -53,21 +53,21 @@ public class GWDeviceManager implements WukitEventHandler {
     /**
      * 开始局域网扫描
      */
-    void startProbe() {
+    public void startProbe() {
         mSdk.startProbe();
     }
 
     /**
      * 结束局域网扫描
      */
-    void stopProbe() {
+    public void stopProbe() {
         mSdk.stopProbe();
     }
 
     /**
      * 获取扫描的局域网设备
      */
-    ArrayList<KitLanDev> getLanDevInfo() {
+    public ArrayList<KitLanDev> getLanDevInfo() {
         return mSdk.getLanDevInfo();
     }
 
@@ -79,7 +79,7 @@ public class GWDeviceManager implements WukitEventHandler {
      * @param password 密码
      * @param timeout 超时时间，单位秒
      */
-    void startSmartConfig(String ssid, String password, int timeout) {
+    public void startSmartConfig(String ssid, String password, int timeout) {
         Log.d(TAG, String.format("开始配网:ssid=%s, pwd=%s, timeout=%d", ssid, password, timeout));
         mSdk.startSmartConfig(ssid, password, KitConfigApi.CONF_MODE_MUT, timeout);
     }
@@ -87,7 +87,7 @@ public class GWDeviceManager implements WukitEventHandler {
     /**
      * 停止一键配置
      */
-    void stopSmartConfig() {
+    public void stopSmartConfig() {
         Log.d(TAG, "停止配网");
         mSdk.stopSmartConfig();
     }
@@ -117,7 +117,7 @@ public class GWDeviceManager implements WukitEventHandler {
     /**
      * 监听配网事件
      */
-    Observable<String> observeConfig() {
+    public Observable<String> observeConfig() {
         return mPublishSubject
             .filter(data -> data.wukitEvent == BaseEventMapper.SC_CONFIG_OK || data.wukitEvent == BaseEventMapper.SC_CONFIG_FAIL)
             .map(eventData -> {
@@ -147,7 +147,7 @@ public class GWDeviceManager implements WukitEventHandler {
     /**
      * 监听局域网列表变化
      */
-    Observable<ArrayList<KitLanDev>> observeProbe() {
+    public Observable<ArrayList<KitLanDev>> observeProbe() {
         return mPublishSubject
             .filter(data -> data.wukitEvent == BaseEventMapper.PE_DEV_CHANGED)
             .map(eventData -> {
